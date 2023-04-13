@@ -22,7 +22,7 @@
     <div class="container mt-5">
 
         <h1>These are my users</h1>
-        <a href="/user/new" class="btn btn-primary">Add a new user</a>
+        <a href="/users/new/" class="btn btn-primary">Add a new user</a>
         <table>
     
             <thead>
@@ -41,6 +41,9 @@
                     <th>
                         Created At
                     </th>
+                    <th>
+                        Actions
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -57,7 +60,12 @@
                             {{user.email}}
                         </td>
                         <td>
-                            {{user.created_at}}
+                            {{user.created_at.strftime("%b %d %Y")}}
+                        </td>
+                        <td>
+                            <a href="/users/show/{{user.id}}">Show</a>
+                            <a href="/users/edit/{{user.id}}">Edit</a>
+                            <a href="/users/destroy/{{user.id}}">Delete</a>
                         </td>
                     </tr>
                 {% endfor %}
