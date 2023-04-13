@@ -2,22 +2,29 @@ from flask import Flask, render_template, request, redirect
 # import the class from user.py
 from users import User
 app = Flask(__name__)
+
 @app.route("/")
 def index():
     # call the get all classmethod to get all users
-    users = User.get_all()
-    all_users=User.get_all()
-    print(users)
-    return render_template("read.html", users=all_users)
+   
+    return redirect('/users')
 
-@app.route('/user/show/<int:user_id>')
-def show(user_id):
+@app.route('/users')
+def users():
     # calling the get_one method and supplying it with the id of the user we want to get
-    user=User.get_one(user_id)
-    return render_template("read.html",user=user)
+    
+    return render_template("users.html",users=User.get_all())
 
-@app.route('/create_user', methods=["POST"])
-def create_user():
+
+@app.route('/user/new')
+def new():
+    return render_template('new_user.html')
+
+
+
+@app.route('/user/create', methods=["POST"])
+def create():
+    print(request.form)
     # create processes form and redirects to the main page. this is where users input information
     # to POST
     # First we make a data dictionary from our request.form coming from our template.
@@ -33,7 +40,7 @@ def create_user():
     # We pass the data dictionary into the save method from the Friend class.
     User.save(request.form)
     # Don't forget to redirect after saving to the database.
-    return redirect('/')
+    return redirect('/users')
 
 
 

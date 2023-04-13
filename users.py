@@ -24,15 +24,19 @@ class User:
             users.append( cls(user))
         return users
     
-    @classmethod
-    def get_one(cls, user_id):
-        query  = "SELECT * FROM users WHERE id = %(id)s"
-        data = {'id':user_id}
-        results = connectToMySQL(cls.DATABASE).query_db(query, data)
-        return cls(results[0])
+    # @classmethod
+    # def get_one(cls, user_id):
+    #     query  = "SELECT * FROM users WHERE id = %(id)s"
+    #     data = {'id':user_id}
+    #     results = connectToMySQL(cls.DATABASE).query_db(query, data)
+    #     return cls(results[0])
 
     @classmethod
     def save(cls, data ):
-        query = "INSERT INTO users ( user_id, first_name , last_name , email, created_at ) VALUES ( %(user_id)s, %(first_name)s , %(last_name)s , %(email)s, %(created_at)s);"
+        query = "INSERT INTO users ( first_name , last_name , email ) VALUES (%(first_name)s , %(last_name)s , %(email)s);"
+
+        # comes back as the new row id
+        # if query is bad it will comeb ack as false
         # data is a dictionary that will be passed into the save method from server.py
-        return connectToMySQL(DATABASE).query_db( query, data )
+        results = connectToMySQL(DATABASE).query_db(query, data)
+        return results
