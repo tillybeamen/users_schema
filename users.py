@@ -18,6 +18,8 @@ class User:
 
     # Now we use class methods to query our database
 
+    # READ ALL
+
     @classmethod
     def get_all(cls):
         query = "SELECT * FROM users;"
@@ -27,7 +29,8 @@ class User:
             users.append( cls(user))
         return users
     
-   
+    # CREATE
+
     @classmethod
     def save(cls, data ):
         query = "INSERT INTO users ( first_name , last_name , email ) VALUES (%(first_name)s , %(last_name)s , %(email)s);"
@@ -35,9 +38,12 @@ class User:
         # comes back as the new row id
         # if query is bad it will comeb ack as false
         # data is a dictionary that will be passed into the save method from server.py
-        results = connectToMySQL(DATABASE).query_db(query, data)
-        return results
+         
+        return connectToMySQL(DATABASE).query_db(query, data)
     
+
+    # READ ONE
+
     @classmethod
     def get_one(cls, data):
         query  = "SELECT * FROM users WHERE id = %(id)s"
@@ -45,11 +51,13 @@ class User:
         results = connectToMySQL(DATABASE).query_db(query, data)
         return cls(results[0])
     
+    # UPDATE
     @classmethod
     def update(cls, data):
-        query = "UPDATE users INTO first_name=%(first_name)s, last_name=%(last_name)s, email=%(email)s, updated_at=NOW() WHERE id = %(id)s; "
+        query = "UPDATE users SET first_name=%(first_name)s, last_name=%(last_name)s, email=%(email)s, updated_at=NOW() WHERE id = %(id)s; "
         return connectToMySQL('users_schema').query_db(query,data)
 
+    # DELETE
     @classmethod
     def destroy(cls,data):
         query = "DELETE FROM users WHERE id = %(id)s;"

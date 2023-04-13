@@ -20,7 +20,7 @@ def users():
 def new():
     return render_template('new_user.html')
 
-
+# CREATE
 
 @app.route('/users/create/', methods=["POST"])
 def create():
@@ -30,24 +30,20 @@ def create():
     # First we make a data dictionary from our request.form coming from our template.
     # The keys in data need to line up exactly with the variables in our query string.
     # Inserting data into a dictionary
-    # data = {
-    #     # "user_id": request.form["user_id"],
-    #     "first_name": request.form["first_name"],
-    #     "last_name" : request.form["last_name"],
-    #     "email" : request.form["email"],
-        # "created_at": request.form["created_at"]
-    # }
     # We pass the data dictionary into the save method from the Friend class.
     User.save(request.form)
     # Don't forget to redirect after saving to the database.
     return redirect('/users')
 
-@app.route('/users/edit/<int:id>')
+# READ ONE
+
+@app.route('/users/edit/<int:id>') # when you declare a variable here, it must be passed down to function
 def edit(id):
     data = {
         "id":id
     }   
     return render_template("edit_user.html",user=User.get_one(data))
+
 
 @app.route('/users/show/<int:id>')
 def show(id):
@@ -56,10 +52,16 @@ def show(id):
     }   
     return render_template("show_user.html",user=User.get_one(data))
 
+
+# UPDATE
+
 @app.route('/users/update/', methods=['POST'])
 def update():
     User.update(request.form)
     return redirect('/users')
+
+
+# DELETE
 
 @app.route('/users/destroy/<int:id>')
 def destroy(id):
