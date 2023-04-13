@@ -1,5 +1,8 @@
 # import the function that will return an instance of a connection
-from mysqlconnection import connectToMySQL
+from flask_app.config.mysqlconnection import connectToMySQL
+
+# This will communicate directly with the models page and the routes
+# from flask_app.models.user import User
 # model the class after the friend table from our database
 
 DATABASE = "users_schema"
